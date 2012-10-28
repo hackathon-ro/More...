@@ -29,7 +29,10 @@ package org.bnbs.more;
 import java.util.Hashtable;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -77,8 +80,8 @@ public class MoreIdentifyActivity extends Activity implements AudioFingerprinter
 	{					
 		button.setText("Start");
 		
-		if(!resolved)
-			status.setText("Idle...");
+		//if(!resolved)
+			//status.setText("Idle...");
 		
 		recording = false;
 	}
@@ -107,6 +110,12 @@ public class MoreIdentifyActivity extends Activity implements AudioFingerprinter
 	{
 		resolved = true;
 		status.setText("Match: \n" + table);
+		String url = status.getText().toString().substring(
+				status.getText().toString().indexOf(" - ") + 3, status.getText().toString().indexOf("score") - 2);
+		Log.d("Fingerprint", url);
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+		startActivity(browserIntent);
+
 	}
 
 	public void didNotFindMatchForCode(String code) 
